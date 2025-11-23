@@ -22,10 +22,8 @@
             nixpkgs.config.allowUnfree = true;
           }
 
-          # Your modules
           ./home/common.nix
           ./home/linux.nix
-          ./home/gaming.nix
         ];
       };
   };
