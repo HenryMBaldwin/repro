@@ -41,7 +41,6 @@
 		shellAliases = {
 			reloadz = "exec zsh";
 			ghard = "hit reset --hard HEAD";
-            z = "zoxide";
 		};
 	};
 
