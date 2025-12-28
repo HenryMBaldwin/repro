@@ -24,7 +24,6 @@
 		enable = true;
 		history.size = 10000;
 		autosuggestion.enable = true;
-		#historySubstringSearch.enable = true;
         history.save = 100000;
         history.append = true;
 
@@ -35,7 +34,6 @@
 			{ name = "jeffreytse/zsh-vi-mode"; }
 			{ name = "zdharma-continuum/fast-syntax-highlighting"; }
 			{ name = "plugins/git"; tags = [ from:oh-my-zsh ]; }
-			# { name = "zsh-users/zsh-history-substring-search"; }
 			# { name = "plugins/direnv", from:oh-my-zsh;}
 		  ];
 		};
