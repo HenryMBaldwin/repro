@@ -2,11 +2,10 @@
 
 {
     home.packages = with pkgs; [
-    # CLI tools
+        # CLI tools
 		tmux
 		neovim
 		ghostty
-		git
 
 		# Toolchains
 		rustup
@@ -55,6 +54,12 @@
         '';
 
 	};
+
+    programs.git = {
+        enable = true;
+        userName = "Henry Baldwin";
+        userEmail = "henrymbaldwin@proton.me";
+    };
 
 	programs.starship = {
 		enable = true;
