@@ -2,7 +2,7 @@
 
 {
     home.packages = with pkgs; [
-        # CLI tools
+    # CLI tools
 		tmux
 		neovim
 		ghostty
@@ -21,7 +21,7 @@
 
     # CLI + tools
 
-	programs.zsh = {
+    programs.zsh = {
 		enable = true;
 		history.size = 10000;
 		autosuggestion.enable = true;
@@ -50,15 +50,18 @@
 		enableZshIntegration = true;
 	};
 	
-	# Dotfiles
-	  home.file.".tmux.conf".source =
-	    ../config/tmux/.tmux.conf;
+	# Dotfiles and config
+	home.file.".tmux.conf".source =
+	../config/tmux/.tmux.conf;
 
-	  home.file.".config/ghostty/config".source =
-	    ../config/ghostty/config;
+	home.file.".config/ghostty/config".source =
+	../config/ghostty/config;
 
-	  home.file.".config/starship.toml".source =
-	    ../config/starship/starship.toml;
+	home.file.".config/starship.toml".source =
+	../config/starship/starship.toml;
+
+	home.file.".config/nvim".source =
+	../config/nvim;
 
 }
 	
