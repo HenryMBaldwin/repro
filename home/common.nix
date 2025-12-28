@@ -12,10 +12,4 @@
     telegram-desktop
     discord
   ];
-
-
-  programs.steam = {
-    enable = true;
-    gamescopeSession.enable = true;
-  };
 }
