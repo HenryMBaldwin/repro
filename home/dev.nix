@@ -24,7 +24,10 @@
 		enable = true;
 		history.size = 10000;
 		autosuggestion.enable = true;
-		historySubstringSearch.enable = true;
+		#historySubstringSearch.enable = true;
+        history.save = 100000;
+        history.append = true;
+
 
 		zplug = {
 		  enable = true;
@@ -44,16 +47,13 @@
 		};
 
         initContent = ''
-            # history substring search bindings
-            bindkey '^[[A' history-substring-search-up
-            bindkey '^[[B' history-substring-search-down
+            # Arrow keys in insert mode
+            bindkey -M viins "$terminfo[kcuu1]" history-search-backward
+            bindkey -M viins "$terminfo[kcud1]" history-search-forward
 
-            # vi mode keymaps
-            bindkey -M viins '^[[A' history-substring-search-up
-            bindkey -M viins '^[[B' history-substring-search-down
-
-            bindkey -M vicmd 'k' history-substring-search-up
-            bindkey -M vicmd 'j' history-substring-search-down
+            # j/k in normal mode
+            bindkey -M vicmd 'k' history-search-backward
+            bindkey -M vicmd 'j' history-search-forward
         '';
 
 	};
