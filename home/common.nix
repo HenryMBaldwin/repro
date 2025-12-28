@@ -3,21 +3,7 @@
 {
   # Shared packages for every machine
   home.packages = with pkgs; [
-    # CLI tools
-    zsh
-    tmux
-    neovim
-    ghostty
-    git
-    zoxide
-    starship
-
-    # Dev tools
-    rustup
-    go
-    nodejs_20
-    python3
-    docker-client
+    home-manager
 
     # GUI apps
     librewolf
@@ -27,15 +13,9 @@
     discord
   ];
 
-  # Dotfiles (shared)
-  home.file.".zshrc".source = ../config/zsh/.zshrc;
 
-  home.file.".config/tmux/tmux.conf".source =
-    ../config/tmux/tmux.conf;
-
-  home.file.".config/ghostty/config".source =
-    ../config/ghostty/config;
-
-  home.file.".config/starship.toml".source =
-    ../config/starship/starship.toml;
+  programs.steam = {
+    enable = true;
+    gamescopeSession.enable = true;
+  };
 }
