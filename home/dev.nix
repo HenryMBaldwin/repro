@@ -32,7 +32,7 @@
 			{ name = "jeffreytse/zsh-vi-mode"; }
 			{ name = "zdharma-continuum/fast-syntax-highlighting"; }
 			{ name = "plugins/git"; tags = [ from:oh-my-zsh ]; }
-			{ name = "zsh-users/zsh-history-substring-search"; }
+			# { name = "zsh-users/zsh-history-substring-search"; }
 			# { name = "plugins/direnv", from:oh-my-zsh;}
 		  ];
 		};
@@ -42,7 +42,8 @@
 			reloadz = "exec zsh";
 			ghard = "hit reset --hard HEAD";
 		};
-        initExtra = ''
+
+        initContent = ''
             # history substring search bindings
             bindkey '^[[A' history-substring-search-up
             bindkey '^[[B' history-substring-search-down
