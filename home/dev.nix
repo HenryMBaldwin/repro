@@ -42,6 +42,19 @@
 			reloadz = "exec zsh";
 			ghard = "hit reset --hard HEAD";
 		};
+        initExtra = ''
+            # history substring search bindings
+            bindkey '^[[A' history-substring-search-up
+            bindkey '^[[B' history-substring-search-down
+
+            # vi mode keymaps
+            bindkey -M viins '^[[A' history-substring-search-up
+            bindkey -M viins '^[[B' history-substring-search-down
+
+            bindkey -M vicmd 'k' history-substring-search-up
+            bindkey -M vicmd 'j' history-substring-search-down
+        '';
+
 	};
 
 	programs.starship = {
