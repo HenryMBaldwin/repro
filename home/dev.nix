@@ -7,7 +7,6 @@
 		neovim
 		ghostty
 		git
-		zoxide
 
 		# Toolchains
 		rustup
@@ -42,6 +41,7 @@
 		shellAliases = {
 			reloadz = "exec zsh";
 			ghard = "hit reset --hard HEAD";
+            z = "zoxide";
 		};
 	};
 
@@ -49,6 +49,11 @@
 		enable = true;
 		enableZshIntegration = true;
 	};
+
+    programs.zoxide = {
+        enable = true;
+        enableZshIntegration = true;
+    };
 	
 	# Dotfiles and config
 	home.file.".tmux.conf".source =
@@ -61,7 +66,7 @@
 	../config/starship/starship.toml;
 
 	home.file.".config/nvim".source =
-	../config/nvim;
+    ../config/nvim;
 
 }
 	
