@@ -3,30 +3,42 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Add this
+    claude-code.url = "github:sadjow/claude-code-nix";
   };
 
-  outputs = { nixpkgs, home-manager, ... }: {
-    homeConfigurations.henry-linux =
-      home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+  outputs = { nixpkgs, home-manager, claude-code, ... }:
+    let
+      system = "x86_64-linux";
 
-        modules = [
-          # Base HM settings for this user
-          {
-            home.username = "henry";
-            home.homeDirectory = "/home/henry";
-            home.stateVersion = "25.05";
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
 
-            nixpkgs.config.allowUnfree = true;
-          }
-
-          ./home/common.nix
-	  ./home/dev.nix
-	  ./home/gaming.nix
-          ./home/linux.nix
-        ];
+        # Apply overlay so pkgs.claude-code comes from claude-code-nix
+        overlays = [ claude-code.overlays.default ];
       };
-  };
+    in {
+      homeConfigurations.henry-linux =
+        home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+
+          modules = [
+            {
+              home.username = "henry";
+              home.homeDirectory = "/home/henry";
+              home.stateVersion = "25.05";
+            }
+
+            ./home/common.nix
+            ./home/dev.nix
+            ./home/gaming.nix
+            ./home/linux.nix
+          ];
+        };
+    };
 }

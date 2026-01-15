@@ -6,11 +6,12 @@
 		tmux
 		neovim
 		ghostty
+        claude-code
 
 		# Toolchains
 		rustup
 		go
-		nodejs_20
+		nodejs_24
 		python3
 
 		# Misc
