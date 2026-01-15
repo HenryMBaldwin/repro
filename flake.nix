@@ -36,8 +36,6 @@
 
             ./home/common.nix
             ./home/dev.nix
-            ./home/gaming.nix
-            ./home/linux.nix
           ];
         };
     };
