@@ -28,6 +28,9 @@
 		};
 
         initContent = ''
+			export PATH="$HOME/.local/bin:$HOME/.zplug/bin:$PATH"
+
+
             # Arrow keys in insert mode
             bindkey -M viins "$terminfo[kcuu1]" history-search-backward
             bindkey -M viins "$terminfo[kcud1]" history-search-forward
