@@ -13,19 +13,22 @@
 
   outputs = { nixpkgs, home-manager, claude-code, ... }:
     let
-      system = "x86_64-linux";
-
-      pkgs = import nixpkgs {
-        inherit system;
+      linuxPkgs = import nixpkgs {
+        system = "x86_64-linux";
         config.allowUnfree = true;
 
         # Apply overlay so pkgs.claude-code comes from claude-code-nix
         overlays = [ claude-code.overlays.default ];
       };
+
+      macPkgs = import nixpkgs {
+        system = "aarch64-darwin";
+        config.allowUnfree = true;
+      };
     in {
       homeConfigurations.henry-linux =
         home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
+          pkgs = linuxPkgs;
 
           modules = [
             {
@@ -36,6 +39,22 @@
 
             ./home/common.nix
             ./home/dev.nix
+          ];
+        };
+
+      homeConfigurations.henry-mac =
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = macPkgs;
+
+          modules = [
+            {
+              home.username = "henrybaldwin";
+              home.homeDirectory = "/Users/henrybaldwin";
+              home.stateVersion = "25.05";
+            }
+
+            ./home/common.nix
+            ./home/dev-config.nix
           ];
         };
     };
