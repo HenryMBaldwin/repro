@@ -5,10 +5,11 @@
 
     programs.zsh = {
 		enable = true;
-		history.size = 10000;
 		autosuggestion.enable = true;
+        history.size = 100000;
         history.save = 100000;
         history.append = true;
+        history.ignoreDups = false;
 
 
 		zplug = {
@@ -23,13 +24,13 @@
 
 
 		shellAliases = {
+			history = "history 1";
 			reloadz = "exec zsh";
-			ghard = "hit reset --hard HEAD";
+			ghard = "git reset --hard HEAD";
 		};
 
         initContent = ''
-			export PATH="$HOME/.local/bin:$HOME/.zplug/bin:$PATH"
-
+			export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$HOME/.zplug/bin:$PATH:$HOME/.seismic/bin"
 
             # Arrow keys in insert mode
             bindkey -M viins "$terminfo[kcuu1]" history-search-backward
@@ -38,6 +39,16 @@
             # j/k in normal mode
             bindkey -M vicmd 'k' history-search-backward
             bindkey -M vicmd 'j' history-search-forward
+
+            # get the hash of the latest commit
+            function glch() {
+                git log -1 --pretty=format:%H | cat
+            }
+
+            # copy the output of a command to the clipboard and print it
+            function copy() {
+                "$@" | tee >(pbcopy)
+            }
         '';
 
 	};

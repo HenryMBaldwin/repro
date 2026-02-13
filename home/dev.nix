@@ -7,8 +7,6 @@
         # CLI tools
 		tmux
 		neovim
-		ghostty
-        claude-code
 
 		# Toolchains
 		rustup

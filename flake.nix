@@ -54,7 +54,7 @@
             }
 
             ./home/common.nix
-            ./home/dev-config.nix
+            ./home/dev.nix
           ];
         };
     };
