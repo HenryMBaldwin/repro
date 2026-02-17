@@ -81,6 +81,6 @@
 	../config/starship/starship.toml;
 
 	home.file.".config/nvim".source =
-    ./config/nvim;
+    ../config/nvim;
 
 }
