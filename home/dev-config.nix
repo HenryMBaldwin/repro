@@ -80,7 +80,7 @@
 	home.file.".config/starship.toml".source =
 	../config/starship/starship.toml;
 
-	# home.file.".config/nvim".source =
-    # ../config/nvim;
+	home.file.".config/nvim".source =
+    ./config/nvim;
 
 }
