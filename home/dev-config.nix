@@ -13,6 +13,7 @@
 
 
 		zplug = {
+
 		  enable = true;
 		  plugins = [
 			{ name = "jeffreytse/zsh-vi-mode"; }
@@ -30,7 +31,7 @@
 		};
 
         initContent = ''
-			export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$HOME/.zplug/bin:$PATH:$HOME/.seismic/bin"
+			export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$HOME/.zplug/bin:$HOME/google-cloud-sdk/bin:$PATH:$HOME/.seismic/bin"
 
             # Arrow keys in insert mode
             bindkey -M viins "$terminfo[kcuu1]" history-search-backward
@@ -79,7 +80,7 @@
 	home.file.".config/starship.toml".source =
 	../config/starship/starship.toml;
 
-	home.file.".config/nvim".source =
-    ../config/nvim;
+	# home.file.".config/nvim".source =
+    # ../config/nvim;
 
 }
