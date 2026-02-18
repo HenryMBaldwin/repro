@@ -893,6 +893,16 @@ require('lazy').setup({
     'HiPhish/rainbow-delimiters.nvim',
   },
 
+  {
+    'akinsho/toggleterm.nvim',
+    config = function()
+      require('toggleterm').setup {
+        open_mapping = [[<c-\>]],
+        direction = 'horizontal',
+      }
+    end,
+  },
+
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- place them in the correct locations.
