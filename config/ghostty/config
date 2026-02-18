@@ -49,3 +49,5 @@
 # # Just for example:
 # resize-overlay-duration = 4s 200ms
 theme = Catppuccin Macchiato
+font-family= "Fira Code"
+font-style = Bold 
