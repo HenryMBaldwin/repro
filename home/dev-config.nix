@@ -41,6 +41,8 @@
             bindkey -M vicmd 'k' history-search-backward
             bindkey -M vicmd 'j' history-search-forward
 
+            # functions
+
             # get the hash of the latest commit
             function glch() {
                 git log -1 --pretty=format:%H | cat
@@ -49,6 +51,11 @@
             # copy the output of a command to the clipboard and print it
             function copy() {
                 "$@" | tee >(pbcopy)
+            }
+
+            # zsh-vi-mode config (called automatically by by zsh-vi-mode)
+            function zvm_config() {
+                ZVM_SYSTEM_CLIPBOARD_ENABLED=true
             }
         '';
 
