@@ -31,7 +31,14 @@
 		};
 
         initContent = ''
+            # ENV
+
 			export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$HOME/.zplug/bin:$HOME/google-cloud-sdk/bin:$PATH:$HOME/.seismic/bin"
+
+            # gh cli 
+            export GH_EDITOR="nvim"
+
+            # BINDINGS
 
             # Arrow keys in insert mode
             bindkey -M viins "$terminfo[kcuu1]" history-search-backward
@@ -41,8 +48,8 @@
             bindkey -M vicmd 'k' history-search-backward
             bindkey -M vicmd 'j' history-search-forward
 
-            # functions
-
+            # FUNCTIONS 
+            
             # get the hash of the latest commit
             function glch() {
                 git log -1 --pretty=format:%H | cat
