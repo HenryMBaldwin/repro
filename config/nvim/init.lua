@@ -4,7 +4,7 @@
 ==================== READ THIS BEFORE CONTINUING ====================
 =====================================================================
 ========                                    .-----.          ========
-========         .----------------------.   | === |          ========
+
 ========         |.-""""""""""""""""""-.|   |-----|          ========
 ========         ||                    ||   | === |          ========
 ========         ||   KICKSTART.NVIM   ||   |-----|          ========
@@ -187,7 +187,36 @@ vim.diagnostic.config {
   jump = { float = true },
 }
 
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+-- Some custom path yanking keybinds
+vim.keymap.set('n', '<leader>ypr', function() vim.fn.setreg('+', vim.fn.expand '%') end, { desc = '[Y]ank [P]ath [R]elative' })
+
+vim.keymap.set('n', '<leader>ypa', function() vim.fn.setreg('+', vim.fn.expand '%:p') end, { desc = '[Y]ank [P]ath [A]bsolute' })
+
+-- Diagnostics
+vim.keymap.set('n', '<leader>q', function()
+  local loclist_winid = vim.fn.getloclist(0, { winid = 0 }).winid
+  if loclist_winid ~= 0 then
+    vim.cmd.lclose()
+  else
+    vim.diagnostic.setloclist()
+  end
+end, { desc = 'Toggle diagnostic location list' })
+
+vim.keymap.set('n', '<leader>Q', function()
+  local qflist_winid = vim.fn.getqflist({ winid = 0 }).winid
+  if qflist_winid ~= 0 then
+    vim.cmd.cclose()
+  else
+    vim.diagnostic.setqflist()
+  end
+end, { desc = 'Toggle diagnostic [Q]uickfix list (all buffers)' })
+vim.keymap.set('n', 'gh', vim.diagnostic.open_float, { desc = 'Line diagnostics' })
+
+vim.keymap.set('n', ']e', function() vim.diagnostic.jump { severity = vim.diagnostic.severity.ERROR, count = 1 } end, { desc = 'Next error' })
+vim.keymap.set('n', '[e', function() vim.diagnostic.jump { severity = vim.diagnostic.severity.ERROR, count = -1 } end, { desc = 'Next error' })
+
+vim.keymap.set('n', ']w', function() vim.diagnostic.jump { severity = vim.diagnostic.severity.WARN, count = 1 } end, { desc = 'Next warn' })
+vim.keymap.set('n', '[w', function() vim.diagnostic.jump { severity = vim.diagnostic.severity.WARN, count = -1 } end, { desc = 'Next warn' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -313,6 +342,8 @@ require('lazy').setup({
         { '<leader>s', group = '[S]earch', mode = { 'n', 'v' } },
         { '<leader>t', group = '[T]oggle' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+        { '<leader>y', group = '[Y]ank', mode = { 'n', 'v' } },
+        { '<leader>yp', group = '[P]ath', mode = { 'n', 'v' } },
       },
     },
   },
