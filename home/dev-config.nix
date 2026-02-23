@@ -50,6 +50,11 @@
 
             # FUNCTIONS 
             
+            # output the current git branch name
+            function gbc() {
+                git branch --show-current
+            }
+
             # get the hash of the latest commit
             function glch() {
                 git log -1 --pretty=format:%H | cat
