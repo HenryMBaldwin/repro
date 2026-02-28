@@ -859,12 +859,16 @@ require('lazy').setup({
         integrations = {
           cmp = true,
           gitsigns = true,
+          lazy = true,
         },
       }
       vim.cmd.colorscheme 'catppuccin'
       local red = require('catppuccin.palettes').get_palette('macchiato').red
       local base = require('catppuccin.palettes').get_palette('macchiato').base
       vim.api.nvim_set_hl(0, 'MiniStatuslineModeNormal', { bg = red, fg = base, bold = true })
+      vim.api.nvim_set_hl(0, 'LazyButtonActive', { fg = red })
+      vim.api.nvim_set_hl(0, 'LazyH1', { fg = red })
+      vim.api.nvim_set_hl(0, 'LazySpecial', { fg = red })
     end,
   },
 
@@ -935,6 +939,11 @@ require('lazy').setup({
         direction = 'horizontal',
       }
     end,
+  },
+
+  {
+    'petertriho/nvim-scrollbar',
+    config = function() require('scrollbar').setup() end,
   },
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
