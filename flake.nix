@@ -55,6 +55,7 @@
 
             ./home/common.nix
             ./home/dev.nix
+            ./home/mac.nix
           ];
         };
     };
