@@ -652,6 +652,8 @@ require('lazy').setup({
       vim.list_extend(ensure_installed, {
         'lua_ls', -- Lua Language server
         'stylua', -- Used to format Lua code
+        'markdownlint', -- Used to lint and format Markdown
+        'prettier', -- Used to format Markdown (and other filetypes)
         -- You can add other tools here that you want Mason to install
       })
 
@@ -720,9 +722,15 @@ require('lazy').setup({
           }
         end
       end,
+      formatters = {
+        prettier = {
+          prepend_args = { '--prose-wrap', 'always' },
+        },
+      },
       formatters_by_ft = {
         lua = { 'stylua' },
         rust = { 'rustfmt' },
+        markdown = { 'prettier', 'markdownlint' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
