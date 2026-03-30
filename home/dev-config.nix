@@ -41,12 +41,12 @@
             # BINDINGS
 
             # Arrow keys in insert mode
-            bindkey -M viins "$terminfo[kcuu1]" history-search-backward
-            bindkey -M viins "$terminfo[kcud1]" history-search-forward
+            bindkey -M viins "$terminfo[kcuu1]" history-beginning-search-backward
+            bindkey -M viins "$terminfo[kcud1]" history-beginning-search-forward
 
             # j/k in normal mode
-            bindkey -M vicmd 'k' history-search-backward
-            bindkey -M vicmd 'j' history-search-forward
+            bindkey -M vicmd 'k' history-beginning-search-backward
+            bindkey -M vicmd 'j' history-beginning-search-forward
 
             # FUNCTIONS 
             
