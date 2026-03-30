@@ -75,8 +75,8 @@
 
     programs.git = {
         enable = true;
-        userName = "Henry Baldwin";
-        userEmail = "henrymbaldwin@proton.me";
+        settings.user.name = "Henry Baldwin";
+        settings.user.email = "henrymbaldwin@proton.me";
     };
 
 	programs.starship = {
