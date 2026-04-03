@@ -7,6 +7,7 @@
         # CLI tools
 		tmux
 		neovim
+		gh
 
 		# Toolchains
 		rustup
@@ -17,5 +18,6 @@
 
 		# Misc
 		docker-client
+
 	];
 }
