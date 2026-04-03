@@ -13,6 +13,7 @@
 		go
 		nodejs_24
 		python3
+		uv
 
 		# Misc
 		docker-client
