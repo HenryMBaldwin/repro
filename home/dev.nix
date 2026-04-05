@@ -7,6 +7,8 @@
         # CLI tools
 		tmux
 		neovim
+		ripgrep
+		tree-sitter
 		gh
 
 		# Toolchains
