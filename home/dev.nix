@@ -15,6 +15,7 @@
 		nodejs_24
 		python3
 		uv
+		bun
 
 		# Misc
 		docker-client
