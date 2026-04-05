@@ -983,6 +983,10 @@ require('lazy').setup({
           name = 'Seismic',
           path = '~/Documents/Obisidian Vault/seismic',
         },
+        {
+          name = 'Personal',
+          path = '~/Documents/Obsidian Vault/personal',
+        },
       },
     },
   },
