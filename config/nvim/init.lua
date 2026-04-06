@@ -93,6 +93,9 @@ vim.g.maplocalleader = ' '
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
+-- Treat .svx (MDsveX) files as markdown
+vim.filetype.add { extension = { svx = 'markdown' } }
+
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
@@ -119,6 +122,15 @@ vim.schedule(function() vim.o.clipboard = 'unnamedplus' end)
 -- Indentation: tabs displayed as 4 spaces
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
+
+-- Spell checking for prose files
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'markdown', 'text', 'gitcommit', 'svx' },
+  callback = function()
+    vim.opt_local.spell = true
+    vim.opt_local.spelllang = { 'en' }
+  end,
+})
 
 -- Enable break indent
 vim.o.breakindent = true
