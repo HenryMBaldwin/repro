@@ -103,6 +103,7 @@ vim.filetype.add { extension = { svx = 'markdown' } }
 
 -- Make line numbers default
 vim.o.number = true
+--
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
 vim.o.relativenumber = true
@@ -122,6 +123,9 @@ vim.schedule(function() vim.o.clipboard = 'unnamedplus' end)
 -- Indentation: tabs displayed as 4 spaces
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
+
+-- Indentation: Expand tabs by default
+vim.o.expandtab = true
 
 -- Spell checking for prose files
 vim.api.nvim_create_autocmd('FileType', {
@@ -938,7 +942,24 @@ require('lazy').setup({
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     config = function()
-      local filetypes = { 'bash', 'c', 'css', 'diff', 'html', 'javascript', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'typescript', 'vim', 'vimdoc', 'rust', 'svelte' }
+      local filetypes = {
+        'bash',
+        'c',
+        'css',
+        'diff',
+        'html',
+        'javascript',
+        'lua',
+        'luadoc',
+        'markdown',
+        'markdown_inline',
+        'query',
+        'typescript',
+        'vim',
+        'vimdoc',
+        'rust',
+        'svelte',
+      }
       require('nvim-treesitter').install(filetypes)
       vim.api.nvim_create_autocmd('FileType', {
         pattern = filetypes,
