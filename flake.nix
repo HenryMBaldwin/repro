@@ -26,7 +26,7 @@
         config.allowUnfree = true;
       };
     in {
-      homeConfigurations.henry-linux =
+      homeConfigurations.linux =
         home-manager.lib.homeManagerConfiguration {
           pkgs = linuxPkgs;
 
@@ -42,7 +42,7 @@
           ];
         };
 
-      homeConfigurations.henry-mac =
+      homeConfigurations.mac =
         home-manager.lib.homeManagerConfiguration {
           pkgs = macPkgs;
 
