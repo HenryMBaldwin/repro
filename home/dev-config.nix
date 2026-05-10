@@ -19,7 +19,7 @@
 			{ name = "jeffreytse/zsh-vi-mode"; }
 			{ name = "zdharma-continuum/fast-syntax-highlighting"; }
 			{ name = "plugins/git"; tags = [ from:oh-my-zsh ]; }
-			# { name = "plugins/direnv", from:oh-my-zsh;}
+			{ name = "plugins/direnv"; tags = [ from:oh-my-zsh ]; }
 		  ];
 		};
 
