@@ -51,3 +51,51 @@ local wf = hs.window.filter.default
 wf:subscribe(hs.window.filter.windowMoved, drawBorder)
 wf:subscribe(hs.window.filter.windowFocused, drawBorder)
 wf:subscribe(hs.window.filter.windowUnfocused, deleteBorder)
+
+-- auto clicker: toggle with cmd+alt+ctrl+0, clicks at cursor 10x/sec
+local clickerTimer = nil
+local clickerIndicator = nil
+
+local function hideClickerIndicator()
+	if clickerIndicator then
+		clickerIndicator:delete()
+		clickerIndicator = nil
+	end
+end
+
+local function showClickerIndicator()
+	hideClickerIndicator()
+	local screen = hs.screen.mainScreen():frame()
+	clickerIndicator = hs.canvas.new({ x = screen.x + screen.w - 140, y = screen.y + 20, w = 120, h = 28 })
+	clickerIndicator:appendElements({
+		type = "rectangle",
+		action = "fill",
+		fillColor = { red = 0, green = 0, blue = 0, alpha = 0.7 },
+		roundedRectRadii = { xRadius = 6, yRadius = 6 },
+	}, {
+		type = "text",
+		text = "● auto-click",
+		textColor = { red = 1, green = 0.3, blue = 0.3, alpha = 1 },
+		textSize = 14,
+		textAlignment = "center",
+		frame = { x = 0, y = 5, w = 120, h = 22 },
+	})
+	clickerIndicator:level(hs.canvas.windowLevels.overlay)
+	clickerIndicator:show()
+end
+
+local function toggleAutoClicker()
+	if clickerTimer then
+		clickerTimer:stop()
+		clickerTimer = nil
+		hideClickerIndicator()
+		return
+	end
+	clickerTimer = hs.timer.doEvery(0.1, function()
+		hs.eventtap.event.newMouseEvent(hs.eventtap.event.types.leftMouseDown, hs.mouse.absolutePosition()):post()
+		hs.eventtap.event.newMouseEvent(hs.eventtap.event.types.leftMouseUp, hs.mouse.absolutePosition()):post()
+	end)
+	showClickerIndicator()
+end
+
+hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "0", toggleAutoClicker)
