@@ -23,6 +23,7 @@ return {
       filtered_items = {
         visible = true,
       },
+      use_libuv_file_watcher = true,
     },
   },
 }
