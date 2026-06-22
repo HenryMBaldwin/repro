@@ -978,6 +978,7 @@ require('lazy').setup({
         'vimdoc',
         'rust',
         'svelte',
+        'solidity',
       }
       require('nvim-treesitter').install(filetypes)
       vim.api.nvim_create_autocmd('FileType', {
