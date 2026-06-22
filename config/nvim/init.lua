@@ -963,6 +963,7 @@ require('lazy').setup({
       local filetypes = {
         'bash',
         'c',
+        'cpp',
         'css',
         'diff',
         'html',
