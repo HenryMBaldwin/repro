@@ -51,3 +51,7 @@
 theme = Catppuccin Macchiato
 font-family = Fira Code
 font-style = Regular
+# Disable ligatures (Fira Code drives them via calt/liga)
+font-feature = -calt
+font-feature = -liga
+font-feature = -dlig
