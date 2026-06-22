@@ -652,15 +652,29 @@ require('lazy').setup({
         rust_analyzer = {
           cmd = { 'rustup', 'run', 'stable', 'rust-analyzer' },
         },
-        -- clangd = {},
-        -- gopls = {},
-        -- pyright = {},
-        --
-        -- Some languages (like typescript) have entire language plugins that can be useful:
-        --    https://github.com/pmizio/typescript-tools.nvim
-        --
-        -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
+        marksman = {}, -- Markdown LSP: follow [text](#anchor) links, etc.
+        clangd = {},
+        gopls = {},
+        basedpyright = {
+          settings = {
+            basedpyright = {
+              analysis = {
+                inlayHints = {
+                  variableTypes = true,
+                  functionReturnTypes = true,
+                  callArgumentNames = true,
+                  genericTypes = false,
+                },
+              },
+            },
+          },
+        },
+
+        Some languages (like typescript) have entire language plugins that can be useful:
+           https://github.com/pmizio/typescript-tools.nvim
+
+        But for many setups, the LSP (`ts_ls`) will work just fine
+        ts_ls = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -899,6 +913,8 @@ require('lazy').setup({
       vim.api.nvim_set_hl(0, 'LazyButtonActive', { fg = red })
       vim.api.nvim_set_hl(0, 'LazyH1', { fg = red })
       vim.api.nvim_set_hl(0, 'LazySpecial', { fg = red })
+      -- Red squiggle (undercurl) under errors instead of a plain white underline
+      vim.api.nvim_set_hl(0, 'DiagnosticUnderlineError', { undercurl = true, sp = red })
     end,
   },
 
