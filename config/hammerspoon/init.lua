@@ -91,7 +91,7 @@ local function toggleAutoClicker()
 		hideClickerIndicator()
 		return
 	end
-	clickerTimer = hs.timer.doEvery(0.1, function()
+	clickerTimer = hs.timer.doEvery(0.01, function()
 		hs.eventtap.event.newMouseEvent(hs.eventtap.event.types.leftMouseDown, hs.mouse.absolutePosition()):post()
 		hs.eventtap.event.newMouseEvent(hs.eventtap.event.types.leftMouseUp, hs.mouse.absolutePosition()):post()
 	end)
