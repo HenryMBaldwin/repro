@@ -655,10 +655,19 @@ require('lazy').setup({
         marksman = {}, -- Markdown LSP: follow [text](#anchor) links, etc.
         clangd = {},
         gopls = {},
+        -- Python: pyrefly owns type diagnostics (matches CI), basedpyright is
+        -- navigation/hover/completion only, ruff does lint + format. All three
+        -- come from Nix (home/dev.nix), not Mason.
+        pyrefly = {
+          root_markers = { { 'pyrefly.toml' }, { 'pyproject.toml', '.git' } },
+          on_attach = function(client) client.server_capabilities.hoverProvider = false end,
+        },
         basedpyright = {
+          root_markers = { { 'pyrightconfig.json' }, { 'pyproject.toml', '.git' } },
           settings = {
             basedpyright = {
               analysis = {
+                typeCheckingMode = 'off', -- pyrefly owns type errors
                 inlayHints = {
                   variableTypes = true,
                   functionReturnTypes = true,
@@ -668,6 +677,10 @@ require('lazy').setup({
               },
             },
           },
+        },
+        ruff = {
+          root_markers = { { 'ruff.toml', '.ruff.toml' }, { 'pyproject.toml', '.git' } },
+          on_attach = function(client) client.server_capabilities.hoverProvider = false end,
         },
 
         -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -684,7 +697,9 @@ require('lazy').setup({
       --    :Mason
       --
       -- You can press `g?` for help in this menu.
-      local ensure_installed = vim.tbl_keys(servers or {})
+      -- These come from Nix (home/dev.nix), so keep Mason out of them.
+      local nix_managed = { pyrefly = true, basedpyright = true, ruff = true }
+      local ensure_installed = vim.tbl_filter(function(name) return not nix_managed[name] end, vim.tbl_keys(servers or {}))
       vim.list_extend(ensure_installed, {
         'lua_ls', -- Lua Language server
         'stylua', -- Used to format Lua code
@@ -767,8 +782,7 @@ require('lazy').setup({
         lua = { 'stylua' },
         rust = { 'rustfmt' },
         markdown = { 'prettier', 'markdownlint' },
-        -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
+        python = { 'ruff_organize_imports', 'ruff_format' },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },

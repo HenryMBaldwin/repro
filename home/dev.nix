@@ -19,6 +19,11 @@
 		uv
 		bun
 
+		# Python LSP/lint/format tooling for nvim
+		ruff
+		pyrefly
+		basedpyright
+
 		# Misc
 		docker-client
 
