@@ -19,23 +19,31 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 
 ## Bootstrap
 
-Clone the repo and apply the appropriate Home Manager configuration:
+Clone the repo and run the bootstrap script with your profile. It installs Nix
+(if missing) and applies the Home Manager configuration in one step:
 
 ```sh
 git clone https://github.com/henrymbaldwin/repro.git
 cd repro
+./bootstrap.sh mac            # or: linux, linux-devbox
 ```
 
-**macOS (Apple Silicon):**
+Or via make:
 
 ```sh
-nix run home-manager -- switch --flake .#mac
+make bootstrap PROFILE=mac    # or: linux, linux-devbox
 ```
 
-**Linux (x86_64):**
+Profiles map to the configurations in `flake.nix`:
+
+- `mac` — macOS (Apple Silicon)
+- `linux` — Linux (x86_64)
+- `linux-devbox` — Linux (x86_64) with devbox extras
+
+If you'd rather do it by hand (Nix already installed):
 
 ```sh
-nix run home-manager -- switch --flake .#linux
+nix run home-manager -- switch --flake .#mac   # or: linux, linux-devbox
 ```
 
 ## Updating
