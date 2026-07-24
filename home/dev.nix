@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-    imports = [ ./dev-config.nix ];
+    imports = [ ./dev-config.nix ./claude.nix ];
 
     home.packages = with pkgs; [
         # CLI tools
