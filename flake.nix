@@ -42,6 +42,23 @@
           ];
         };
 
+      homeConfigurations.linux-devbox =
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = linuxPkgs;
+
+          modules = [
+            {
+              home.username = "henry";
+              home.homeDirectory = "/home/henry";
+              home.stateVersion = "25.05";
+            }
+
+            ./home/common.nix
+            ./home/dev.nix
+            ./home/linux-devbox.nix
+          ];
+        };
+
       homeConfigurations.mac =
         home-manager.lib.homeManagerConfiguration {
           pkgs = macPkgs;
