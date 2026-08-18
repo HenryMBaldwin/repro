@@ -8,6 +8,8 @@
 
   config = {
     my.claudeRules = [
+      (builtins.readFile ../config/claude/rules.md)
+
       ''
         # Code style
         Write only strictly-necessary code comments; default to none. Don't add comments that restate the code, narrate refactors, or document changes. Only comment when intent is genuinely non-obvious.
