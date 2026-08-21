@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-    imports = [ ./dev-config.nix ./claude.nix ];
+    imports = [ ./dev-config.nix ./claude.nix ./agent-notify.nix ];
 
     home.packages = with pkgs; [
         # CLI tools
