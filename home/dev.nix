@@ -10,6 +10,7 @@
 		ripgrep
 		tree-sitter
 		gh
+		just
 
 		# Toolchains
 		rustup
@@ -18,6 +19,7 @@
 		python3
 		uv
 		bun
+		cmake
 
 		# Python LSP/lint/format tooling for nvim
 		ruff

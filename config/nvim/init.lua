@@ -704,6 +704,7 @@ require('lazy').setup({
         'lua_ls', -- Lua Language server
         'stylua', -- Used to format Lua code
         'markdownlint', -- Used to lint and format Markdown
+        'clang-format', -- Used to format C and C++
         'prettier', -- Used to format Markdown (and other filetypes)
         -- You can add other tools here that you want Mason to install
       })
@@ -763,7 +764,7 @@ require('lazy').setup({
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
+        local disable_filetypes = {}
         if disable_filetypes[vim.bo[bufnr].filetype] then
           return nil
         else
@@ -777,9 +778,18 @@ require('lazy').setup({
         prettier = {
           prepend_args = { '--prose-wrap', 'always' },
         },
+        clang_format = {
+          -- Honour a project's .clang-format; otherwise LLVM style at 4 spaces.
+          args = function(_, ctx)
+            local found = vim.fs.find({ '.clang-format', '_clang-format' }, { path = ctx.dirname, upward = true })[1]
+            return { '--assume-filename', '$FILENAME', '--style=' .. (found and 'file' or '{BasedOnStyle: LLVM, IndentWidth: 4}') }
+          end,
+        },
       },
       formatters_by_ft = {
         lua = { 'stylua' },
+        c = { 'clang_format' },
+        cpp = { 'clang_format' },
         rust = { 'rustfmt' },
         markdown = { 'prettier', 'markdownlint' },
         python = { 'ruff_organize_imports', 'ruff_format' },
@@ -982,6 +992,7 @@ require('lazy').setup({
         'diff',
         'html',
         'javascript',
+        'just',
         'lua',
         'luadoc',
         'markdown',
