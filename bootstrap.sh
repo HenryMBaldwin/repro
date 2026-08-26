@@ -8,7 +8,7 @@
 #
 #   mac            # aarch64-darwin (nix-darwin + Home Manager + Homebrew casks)
 #   linux          # x86_64-linux
-#   linux-devbox   # x86_64-linux + devbox extras
+#   linux-server   # x86_64-linux + server extras
 #
 # It installs Nix (Determinate installer) if missing, then applies the chosen
 # configuration. On mac, nix-homebrew installs/adopts Homebrew during
@@ -26,7 +26,7 @@ log()  { printf '\033[1;34m==>\033[0m %s\n' "$*"; }
 die()  { printf '\033[1;31m error:\033[0m %s\n' "$*" >&2; exit 1; }
 
 # --- Profile must be passed explicitly -----------------------------------
-VALID_PROFILES="mac linux linux-devbox"
+VALID_PROFILES="mac linux linux-server"
 
 if [ $# -lt 1 ] || [ -z "${1:-}" ]; then
   die "no profile given. Usage: ./bootstrap.sh <profile>  (one of: $VALID_PROFILES)"
@@ -77,18 +77,20 @@ ensure_nix
 if [ "$PROFILE" = "mac" ]; then
   log "Applying nix-darwin configuration (.#mac)"
   if command -v darwin-rebuild >/dev/null 2>&1; then
-    sudo darwin-rebuild switch --flake ".#mac"
+    # --impure lets the flake read $SUDO_USER/$USER to detect the account name.
+    sudo darwin-rebuild switch --flake ".#mac" --impure
   else
     # First run: darwin-rebuild isn't installed yet, so pull it from the flake.
     sudo nix run \
       --extra-experimental-features "$FLAKE_FEATURES" \
-      "$NIX_DARWIN_REF#darwin-rebuild" -- switch --flake ".#mac"
+      "$NIX_DARWIN_REF#darwin-rebuild" -- switch --flake ".#mac" --impure
   fi
 else
   log "Applying Home Manager configuration (.#$PROFILE)"
+  # --impure lets the flake read $USER to detect the account name.
   nix run \
     --extra-experimental-features "$FLAKE_FEATURES" \
-    home-manager -- switch -b hm-bak --flake ".#$PROFILE"
+    home-manager -- switch -b hm-bak --flake ".#$PROFILE" --impure
 fi
 
 log "Done. Restart your shell (or run: exec \$SHELL -l) to pick up the new environment."

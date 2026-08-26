@@ -27,20 +27,20 @@ configuration in one step:
 ```sh
 git clone https://github.com/henrymbaldwin/repro.git
 cd repro
-./bootstrap.sh mac            # or: linux, linux-devbox
+./bootstrap.sh mac            # or: linux, linux-server
 ```
 
 Or via make:
 
 ```sh
-make bootstrap PROFILE=mac    # or: linux, linux-devbox
+make bootstrap PROFILE=mac    # or: linux, linux-server
 ```
 
 Profiles map to the configurations in `flake.nix`:
 
 - `mac` — macOS (Apple Silicon), via nix-darwin (Home Manager + Homebrew casks)
 - `linux` — Linux (x86_64), standalone Home Manager
-- `linux-devbox` — Linux (x86_64) with devbox extras
+- `linux-server` — Linux (x86_64) with server extras
 
 On the first mac run, `darwin-rebuild` isn't installed yet, so the script pulls
 it from the flake and asks for `sudo` (nix-darwin activates system-level
@@ -53,15 +53,19 @@ Privacy & Security** the first time.
 After editing any `.nix` file or config, re-apply:
 
 ```sh
-make switch PROFILE=mac        # or: linux, linux-devbox
+make switch PROFILE=mac        # or: linux, linux-server
 ```
 
 Doing it by hand:
 
 ```sh
-sudo darwin-rebuild switch --flake .#mac         # macOS
-nix run home-manager -- switch --flake .#linux   # Linux
+sudo darwin-rebuild switch --flake .#mac --impure         # macOS
+nix run home-manager -- switch --flake .#linux --impure   # Linux
 ```
+
+The account name isn't hardcoded — the flake reads it from `$SUDO_USER`
+(falling back to `$USER`) at eval time, which is why `--impure` is required.
+Nothing to edit per machine; it just uses whatever user runs the switch.
 
 To manage macOS apps, edit the `casks` list in `darwin/mac.nix` and re-run the
 switch. To update flake inputs (nixpkgs, home-manager, nix-darwin, ...):

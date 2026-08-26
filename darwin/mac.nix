@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, username, ... }:
 
 {
   # Determinate Nix manages the daemon; keep nix-darwin from fighting it.
@@ -17,8 +17,8 @@
   ];
 
   system.stateVersion = 5;
-  system.primaryUser = "henrybaldwin";
-  users.users.henrybaldwin.home = "/Users/henrybaldwin";
+  system.primaryUser = username;
+  users.users.${username}.home = "/Users/${username}";
 
   homebrew = {
     enable = true;

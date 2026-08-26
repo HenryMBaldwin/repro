@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
     # CLI + tools
@@ -39,7 +39,10 @@
 			ghard = "git reset --hard HEAD";
 		};
 
-        initContent = ''
+        initContent = lib.mkMerge [
+          (lib.mkBefore "zstyle ':omz:alpha:lib:git' async-prompt no")
+
+          ''
             # ENV
 
             # Source alias files
@@ -91,7 +94,8 @@
             function zvm_config() {
                 ZVM_SYSTEM_CLIPBOARD_ENABLED=true
             }
-        '';
+        ''
+        ];
 
 	};
 

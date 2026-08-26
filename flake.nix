@@ -22,6 +22,20 @@
 
   outputs = { nixpkgs, home-manager, nix-darwin, nix-homebrew, homebrew-core, homebrew-cask, claude-code, ... }:
     let
+      # Detect the invoking user so the same config works on every machine
+      # (macs, linux servers) with no hardcoded name. Requires --impure, since
+      # builtins.getEnv only reads the environment in impure eval. Under `sudo`
+      # (the mac rebuild) $USER is "root", so prefer $SUDO_USER and fall back
+      # to $USER for the un-sudo'd linux home-manager runs.
+      username =
+        let
+          sudoUser = builtins.getEnv "SUDO_USER";
+          envUser  = builtins.getEnv "USER";
+        in
+          if sudoUser != "" then sudoUser
+          else if envUser != "" then envUser
+          else throw "Could not detect a username from $SUDO_USER or $USER. Build with --impure (see README).";
+
       linuxPkgs = import nixpkgs {
         system = "x86_64-linux";
         config.allowUnfree = true;
@@ -29,41 +43,27 @@
         # Apply overlay so pkgs.claude-code comes from claude-code-nix
         overlays = [ claude-code.overlays.default ];
       };
+
+      mkLinux = extraModules:
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = linuxPkgs;
+          modules = [
+            {
+              home.username = username;
+              home.homeDirectory = "/home/${username}";
+              home.stateVersion = "25.05";
+            }
+            ./home/common.nix
+            ./home/dev.nix
+          ] ++ extraModules;
+        };
     in {
-      homeConfigurations.linux =
-        home-manager.lib.homeManagerConfiguration {
-          pkgs = linuxPkgs;
+      homeConfigurations.linux = mkLinux [ ];
 
-          modules = [
-            {
-              home.username = "henry";
-              home.homeDirectory = "/home/henry";
-              home.stateVersion = "25.05";
-            }
-
-            ./home/common.nix
-            ./home/dev.nix
-          ];
-        };
-
-      homeConfigurations.linux-devbox =
-        home-manager.lib.homeManagerConfiguration {
-          pkgs = linuxPkgs;
-
-          modules = [
-            {
-              home.username = "henry";
-              home.homeDirectory = "/home/henry";
-              home.stateVersion = "25.05";
-            }
-
-            ./home/common.nix
-            ./home/dev.nix
-            ./home/linux-devbox.nix
-          ];
-        };
+      homeConfigurations.linux-server = mkLinux [ ./home/linux-server.nix ];
 
       darwinConfigurations.mac = nix-darwin.lib.darwinSystem {
+        specialArgs = { inherit username; };
         modules = [
           ./darwin/mac.nix
 
@@ -71,7 +71,7 @@
           {
             nix-homebrew = {
               enable = true;
-              user = "henrybaldwin";
+              user = username;
               autoMigrate = true;
               mutableTaps = true;
               taps = {
@@ -86,10 +86,10 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "hm-bak";
-            home-manager.users.henrybaldwin = {
+            home-manager.users.${username} = {
               imports = [ ./home/common.nix ./home/dev.nix ./home/mac.nix ];
-              home.username = "henrybaldwin";
-              home.homeDirectory = "/Users/henrybaldwin";
+              home.username = username;
+              home.homeDirectory = "/Users/${username}";
               home.stateVersion = "25.05";
             };
           }
