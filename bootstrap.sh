@@ -103,6 +103,16 @@ ensure_zsh_login_shell() {
     || log "warning: could not change login shell; run manually: chsh -s $zsh_path"
 }
 
+# --- Enable linger so user services (e.g. tailscaled) run without a login -
+ensure_linger() {
+  command -v loginctl >/dev/null 2>&1 || return
+  local user; user="$(id -un)"
+  [ "$(loginctl show-user "$user" -p Linger --value 2>/dev/null)" = "yes" ] && return
+  log "Enabling linger for $user (user services run without an active login)"
+  sudo loginctl enable-linger "$user" \
+    || log "warning: could not enable linger; run manually: sudo loginctl enable-linger $user"
+}
+
 # --- Apply the configuration ---------------------------------------------
 if [ "$PROFILE" = "mac" ]; then
   log "Applying nix-darwin configuration (.#mac)"
@@ -124,5 +134,6 @@ else
 fi
 
 ensure_zsh_login_shell
+ensure_linger
 
 log "Done. Restart your shell (or run: exec \$SHELL -l) to pick up the new environment."
