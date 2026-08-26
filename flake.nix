@@ -67,6 +67,8 @@
         modules = [
           ./darwin/mac.nix
 
+          { nixpkgs.overlays = [ claude-code.overlays.default ]; }
+
           nix-homebrew.darwinModules.nix-homebrew
           {
             nix-homebrew = {

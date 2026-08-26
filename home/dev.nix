@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
     imports = [ ./dev-config.nix ./claude.nix ./agent-notify.nix ];
@@ -11,6 +11,7 @@
 		tree-sitter
 		gh
 		just
+		watch
 
 		# Toolchains
 		rustup
@@ -26,8 +27,13 @@
 		pyrefly
 		basedpyright
 
+		# Agents
+		claude-code
+
 		# Misc
 		docker-client
+		gnumake
+		unzip
 
-	];
+	] ++ lib.optionals pkgs.stdenv.isLinux [ gcc codex ];
 }

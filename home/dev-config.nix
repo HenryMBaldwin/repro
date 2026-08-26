@@ -10,6 +10,8 @@
 
     home.sessionVariables = {
         CODE_PATH = "$HOME/dev";
+        # nvim isn't on root's PATH; sudoedit runs the editor as you, writes as root.
+        SUDO_EDITOR = "nvim";
     };
 
     programs.zsh = {
