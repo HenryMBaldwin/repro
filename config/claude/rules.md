@@ -21,6 +21,8 @@ The rules below apply to every word written, not only to comments: READMEs, docs
 PR descriptions and chat. State the fact and stop. Do not defend a choice, explain why it is good,
 or describe what the alternative would have done.
 
+Commit messages are a single line. No body, no bullet lists, no trailers.
+
 Keep PR descriptions to a short list of what changed. No headings, no restating the diff, no
 narrative of how the work went.
 
