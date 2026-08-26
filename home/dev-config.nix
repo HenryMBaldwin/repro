@@ -37,7 +37,9 @@
 
 		shellAliases = {
 			history = "history 1";
-			reloadz = "exec zsh";
+			# Drop the nix-darwin guard so /etc/zshenv rebuilds PATH, and direnv's
+			# state so it reloads onto that fresh PATH instead of a stale diff.
+			reloadz = "exec env -u __NIX_DARWIN_SET_ENVIRONMENT_DONE -u DIRENV_DIFF -u DIRENV_WATCHES -u DIRENV_DIR -u DIRENV_FILE zsh";
 			ghard = "git reset --hard HEAD";
 		};
 
