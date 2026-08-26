@@ -73,6 +73,36 @@ ensure_nix() {
 
 ensure_nix
 
+# --- Make zsh the login shell (home-manager can't do this itself) --------
+# SSH sessions use the login shell from passwd; if it isn't zsh, ~/.zshrc
+# never loads over ssh. Only acts when the current shell isn't already zsh.
+ensure_zsh_login_shell() {
+  local user current zsh_path
+  user="$(id -un)"
+
+  current="$(getent passwd "$user" 2>/dev/null | cut -d: -f7)"
+  [ -n "$current" ] || current="$(dscl . -read "/Users/$user" UserShell 2>/dev/null | awk '{print $2}')"
+
+  case "$current" in
+    */zsh) return ;;
+  esac
+
+  if [ -x "$HOME/.nix-profile/bin/zsh" ]; then
+    zsh_path="$HOME/.nix-profile/bin/zsh"
+  else
+    zsh_path="$(command -v zsh || true)"
+  fi
+  [ -n "$zsh_path" ] || { log "zsh not found; leaving login shell as '${current:-unknown}'"; return; }
+
+  log "Changing login shell to zsh: '${current:-unknown}' -> '$zsh_path'"
+  if ! grep -qxF "$zsh_path" /etc/shells 2>/dev/null; then
+    echo "$zsh_path" | sudo tee -a /etc/shells >/dev/null
+  fi
+  chsh -s "$zsh_path" \
+    || sudo chsh -s "$zsh_path" "$user" \
+    || log "warning: could not change login shell; run manually: chsh -s $zsh_path"
+}
+
 # --- Apply the configuration ---------------------------------------------
 if [ "$PROFILE" = "mac" ]; then
   log "Applying nix-darwin configuration (.#mac)"
@@ -92,5 +122,7 @@ else
     --extra-experimental-features "$FLAKE_FEATURES" \
     home-manager -- switch -b hm-bak --flake ".#$PROFILE" --impure
 fi
+
+ensure_zsh_login_shell
 
 log "Done. Restart your shell (or run: exec \$SHELL -l) to pick up the new environment."
