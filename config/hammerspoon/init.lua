@@ -99,3 +99,12 @@ local function toggleAutoClicker()
 end
 
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "0", toggleAutoClicker)
+
+-- app hotkeys: cmd+alt+ctrl+1 ghostty, cmd+alt+ctrl+2 default browser
+hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "1", function()
+	hs.application.launchOrFocusByBundleID("com.mitchellh.ghostty")
+end)
+
+hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "2", function()
+	hs.application.launchOrFocusByBundleID(hs.urlevent.getDefaultHandler("http"))
+end)
