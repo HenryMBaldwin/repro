@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, ... }:
 
 {
     imports = [ ./dev-config.nix ./claude.nix ./agent-notify.nix ];
@@ -29,5 +29,5 @@
 		# Misc
 		docker-client
 
-	] ++ lib.optionals pkgs.stdenv.isLinux [ tailscale ];
+	];
 }
