@@ -1,21 +1,20 @@
 { config, pkgs, lib, ... }:
 
+let
+  githubUser = "HenryMBaldwin";
+  githubAuthorizedKeys = pkgs.writeShellApplication {
+    name = "github-authorized-keys";
+    runtimeInputs = with pkgs; [ curl gawk coreutils ];
+    text = builtins.readFile ../scripts/github-authorized-keys.sh;
+  };
+in
 {
   home.sessionVariables = {
     AI_BRANCH_PREFIX = "hbai";
     CLAUDE_DANGEROUSLY_SKIP_PERMISSIONS = "1";
   };
 
-  # Land in the most recent tmux session on ssh login, or start one
-  programs.zsh.initContent = lib.mkAfter ''
-    if [[ -o interactive ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_CONNECTION" ]] && command -v tmux &>/dev/null; then
-        if tmux ls &>/dev/null; then
-            exec tmux attach
-        else
-            exec tmux new-session
-        fi
-    fi
-  '';
+  programs.zsh.initContent = lib.mkAfter (builtins.readFile ../config/zsh/tmux-attach.zsh);
 
   programs.git.settings.user.name = lib.mkForce "henry-ai";
   programs.git.settings.user.email = lib.mkForce "henrymbaldwin+ai@proton.me";
@@ -40,6 +39,10 @@
 
   programs.zsh.shellAliases.tailscale =
     "tailscale --socket=$HOME/.local/state/tailscale/tailscaled.sock";
+
+  home.activation.githubAuthorizedKeys = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    $DRY_RUN_CMD ${githubAuthorizedKeys}/bin/github-authorized-keys ${githubUser}
+  '';
 
   my.claudeRules = lib.mkAfter [
     ''
