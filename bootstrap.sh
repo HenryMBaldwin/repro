@@ -80,7 +80,8 @@ ensure_zsh_login_shell() {
   local user current zsh_path
   user="$(id -un)"
 
-  current="$(getent passwd "$user" 2>/dev/null | cut -d: -f7)"
+  # getent is linux-only; `|| true` keeps pipefail from aborting on macOS.
+  current="$(getent passwd "$user" 2>/dev/null | cut -d: -f7 || true)"
   [ -n "$current" ] || current="$(dscl . -read "/Users/$user" UserShell 2>/dev/null | awk '{print $2}')"
 
   case "$current" in
@@ -105,7 +106,7 @@ ensure_zsh_login_shell() {
 
 # --- Enable linger so user services (e.g. tailscaled) run without a login -
 ensure_linger() {
-  command -v loginctl >/dev/null 2>&1 || return
+  command -v loginctl >/dev/null 2>&1 || return 0
   local user; user="$(id -un)"
   [ "$(loginctl show-user "$user" -p Linger --value 2>/dev/null)" = "yes" ] && return
   log "Enabling linger for $user (user services run without an active login)"
