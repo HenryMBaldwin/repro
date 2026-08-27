@@ -7,8 +7,8 @@
 # where <profile> is one of the configurations defined in flake.nix:
 #
 #   mac            # aarch64-darwin (nix-darwin + Home Manager + Homebrew casks)
-#   linux          # x86_64-linux
-#   linux-server   # x86_64-linux + server extras
+#   linux          # x86_64-linux or aarch64-linux
+#   linux-server   # x86_64-linux or aarch64-linux, plus server extras
 #
 # It installs Nix (Determinate installer) if missing, then applies the chosen
 # configuration. On mac, nix-homebrew installs/adopts Homebrew during

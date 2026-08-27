@@ -36,8 +36,9 @@
           else if envUser != "" then envUser
           else throw "Could not detect a username from $SUDO_USER or $USER. Build with --impure (see README).";
 
+      # Follow the host arch so the same profile works on x86_64 and aarch64.
       linuxPkgs = import nixpkgs {
-        system = "x86_64-linux";
+        system = builtins.currentSystem;
         config.allowUnfree = true;
 
         # Apply overlay so pkgs.claude-code comes from claude-code-nix
