@@ -54,6 +54,7 @@
         enable = true;
         settings.user.name = "Henry Baldwin";
         settings.user.email = "henrymbaldwin@proton.me";
+        settings.init.defaultBranch = "main";
     };
 
 	programs.starship = {
