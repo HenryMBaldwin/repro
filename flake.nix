@@ -58,7 +58,7 @@
           ] ++ extraModules;
         };
     in {
-      homeConfigurations.linux = mkLinux [ ];
+      homeConfigurations.linux = mkLinux [ ./home/desktop.nix ];
 
       homeConfigurations.linux-server = mkLinux [ ./home/linux-server.nix ];
 
@@ -89,7 +89,7 @@
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "hm-bak";
             home-manager.users.${username} = {
-              imports = [ ./home/common.nix ./home/dev.nix ./home/mac.nix ];
+              imports = [ ./home/common.nix ./home/dev.nix ./home/mac.nix ./home/desktop.nix ];
               home.username = username;
               home.homeDirectory = "/Users/${username}";
               home.stateVersion = "25.05";
