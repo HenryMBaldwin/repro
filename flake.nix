@@ -37,8 +37,12 @@
           else throw "Could not detect a username from $SUDO_USER or $USER. Build with --impure (see README).";
 
       # Follow the host arch so the same profile works on x86_64 and aarch64.
+      # Maps the darwin host to its linux equivalent so these still eval from a mac.
+      linuxSystem =
+        builtins.replaceStrings [ "darwin" ] [ "linux" ] builtins.currentSystem;
+
       linuxPkgs = import nixpkgs {
-        system = builtins.currentSystem;
+        system = linuxSystem;
         config.allowUnfree = true;
 
         # Apply overlay so pkgs.claude-code comes from claude-code-nix
