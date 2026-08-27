@@ -10,4 +10,7 @@
 
   home.file.".hammerspoon/init.lua".source =
     ../config/hammerspoon/init.lua;
+
+  home.file.".config/karabiner/karabiner.json".source =
+    ../config/karabiner/karabiner.json;
 }
