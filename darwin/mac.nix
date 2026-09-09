@@ -72,6 +72,7 @@
       "codex"
       "ghostty"
       "librewolf"
+      "signal"
 
       # Fonts
       "font-fira-code"

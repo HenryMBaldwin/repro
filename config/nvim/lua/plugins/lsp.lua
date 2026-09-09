@@ -8,6 +8,10 @@ local servers = {
   clangd = {},
   gopls = {},
   marksman = {},
+  svelte = {},
+  ts_ls = {},
+  cssls = {},
+  html = {},
   -- Python: pyrefly owns type diagnostics (matches CI), basedpyright is
   -- navigation/hover/completion only, ruff does lint + format.
   pyrefly = {

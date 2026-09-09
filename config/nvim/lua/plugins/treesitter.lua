@@ -24,6 +24,7 @@ local filetypes = {
 return {
   {
     'nvim-treesitter/nvim-treesitter',
+    branch = 'main',
     config = function()
       require('nvim-treesitter').install(filetypes)
       vim.api.nvim_create_autocmd('FileType', {

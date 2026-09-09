@@ -1,7 +1,8 @@
 { config, pkgs, lib, ... }:
 
 {
-  home.packages = [ pkgs.warpd ];
+  home.packages = [ pkgs.warpd ]
+    ++ lib.optionals pkgs.stdenv.isLinux [ pkgs.signal-desktop ];
 
   launchd.agents.warpd = {
     enable = true;

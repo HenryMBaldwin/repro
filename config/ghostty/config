@@ -55,3 +55,8 @@ font-style = Regular
 font-feature = -calt
 font-feature = -liga
 font-feature = -dlig
+
+# Send Option as Alt so tmux sees alt+arrow; the macOS word-motion defaults shadow it
+macos-option-as-alt = true
+keybind = alt+arrow_left=unbind
+keybind = alt+arrow_right=unbind

@@ -4,6 +4,9 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
 
+    # Signal hard-expires builds ~90 days after release; stable lags past that.
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+
     home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -20,7 +23,7 @@
     claude-code.url = "github:sadjow/claude-code-nix";
   };
 
-  outputs = { nixpkgs, home-manager, nix-darwin, nix-homebrew, homebrew-core, homebrew-cask, claude-code, ... }:
+  outputs = { nixpkgs, nixpkgs-unstable, home-manager, nix-darwin, nix-homebrew, homebrew-core, homebrew-cask, claude-code, ... }:
     let
       # Detect the invoking user so the same config works on every machine
       # (macs, linux servers) with no hardcoded name. Requires --impure, since
@@ -36,6 +39,18 @@
           else if envUser != "" then envUser
           else throw "Could not detect a username from $SUDO_USER or $USER. Build with --impure (see README).";
 
+      # Signal expires old builds; nvim-treesitter's main branch needs neovim 0.12.
+      unstableOverlay = final: prev:
+        let
+          unstable = import nixpkgs-unstable {
+            inherit (prev.stdenv.hostPlatform) system;
+            config.allowUnfree = true;
+          };
+        in
+        {
+          inherit (unstable) signal-desktop neovim;
+        };
+
       # Follow the host arch so the same profile works on x86_64 and aarch64.
       # Maps the darwin host to its linux equivalent so these still eval from a mac.
       linuxSystem =
@@ -46,7 +61,7 @@
         config.allowUnfree = true;
 
         # Apply overlay so pkgs.claude-code comes from claude-code-nix
-        overlays = [ claude-code.overlays.default ];
+        overlays = [ claude-code.overlays.default unstableOverlay ];
       };
 
       mkLinux = extraModules:
@@ -72,7 +87,7 @@
         modules = [
           ./darwin/mac.nix
 
-          { nixpkgs.overlays = [ claude-code.overlays.default ]; }
+          { nixpkgs.overlays = [ claude-code.overlays.default unstableOverlay ]; }
 
           nix-homebrew.darwinModules.nix-homebrew
           {
