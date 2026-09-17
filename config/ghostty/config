@@ -50,6 +50,7 @@
 # resize-overlay-duration = 4s 200ms
 theme = Catppuccin Macchiato
 font-family = Fira Code
+font-size = 14
 font-style = Regular
 # Disable ligatures (Fira Code drives them via calt/liga)
 font-feature = -calt
