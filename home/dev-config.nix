@@ -71,6 +71,9 @@
 	home.file.".tmux.conf".source =
 	../config/tmux/.tmux.conf;
 
+	home.file.".config/tmux/nav.conf".source =
+	../config/tmux/nav.conf;
+
 	home.file.".config/ghostty/config".source =
 	../config/ghostty/config;
 
